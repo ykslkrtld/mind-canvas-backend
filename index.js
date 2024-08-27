@@ -30,13 +30,29 @@ dbConnection()
 // Accept JSON:
 app.use(express.json())
 
+// res.getModelList():
+app.use(require('./src/middlewares/queryHandler'))
+
 
 /* ------------------------------------------------------- */
 // Routes:
 
+// HomePath:
+app.all('/', (req, res) => {
+    res.send({
+        error: false,
+        message: 'Welcome to Mind Canvas API',
+        // documents: {
+        //     swagger: '/documents/swagger',
+        //     redoc: '/documents/redoc',
+        //     json: '/documents/json',
+        // },
+        user: req.user
+    })
+})
 
-
-
+// Routes:
+app.use(require('./src/routes'))
 
 /* ------------------------------------------------------- */
 
