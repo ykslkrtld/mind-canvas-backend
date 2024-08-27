@@ -6,15 +6,24 @@
 const router = require('express').Router()
 
 /* ------------------------------------------------------- */
-// routes/:
 
-// URL: /
+const token = require('../controllers/token')
 
-// user:
-router.use('/users', require('./user'))
-// token:
-router.use('/tokens', require('./token'))
+// URL: /tokens
 
+const { isAdmin } = require('../middlewares/permissions')
+
+router.use(isAdmin)
+
+router.route('/')
+    .get(token.list)
+    .post(token.create)
+
+router.route('/:id')
+    .get(token.read)
+    .put(token.update)
+    .patch(token.update)
+    .delete(token.delete)
 
 /* ------------------------------------------------------- */
 module.exports = router
