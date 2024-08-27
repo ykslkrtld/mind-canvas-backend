@@ -2,23 +2,23 @@
 /* -------------------------------------------------------
     | Mind Canvas |
 ------------------------------------------------------- */
-
 const router = require('express').Router()
+/* ------------------------------------------------------- */
+
+const category = require('../controllers/category')
+
+// URL: /categories
+
+router.route("/")
+  .get(category.list)
+  .post(category.create);
+
+router
+  .route("/:id")
+  .get(category.read)
+  .put(category.update)
+  .patch(category.update)
+  .delete(category.delete);
 
 /* ------------------------------------------------------- */
-// routes/:
-
-// URL: /
-
-// user:
-router.use('/users', require('./user'))
-// token:
-router.use('/tokens', require('./token'))
-
-
-// category:
-router.use('/categories', require('./category'))
-
-
-/* ------------------------------------------------------- */
-module.exports = router
+module.exports = router;

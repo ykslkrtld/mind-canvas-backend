@@ -1,7 +1,8 @@
 "use strict"
 /* -------------------------------------------------------
-    | FULLSTACK TEAM | NODEJS / EXPRESS |
+    | Mind Canvas |
 ------------------------------------------------------- */
+
 // Middleware: permissions
 
 module.exports = {
