@@ -1,28 +1,19 @@
 "use strict"
 /* -------------------------------------------------------
-    | Mind Canvas |
+    | FULLSTACK TEAM | NODEJS / EXPRESS |
 ------------------------------------------------------- */
-
 const router = require('express').Router()
-
 /* ------------------------------------------------------- */
-// routes/:
 
-// URL: /
+// routes/auth:
 
-// auth:
-router.use('/auth', require('./auth'))
-// user:
-router.use('/users', require('./user'))
-// token:
-router.use('/tokens', require('./token'))
+const auth = require('../controllers/auth')
 
+// URL: /auth
 
-// category:
-router.use('/categories', require('./category'))
-// blog:
-router.use('/blogs', require('./blog'))
-
+router.post('/login', auth.login)
+router.post('/refresh', auth.refresh)
+router.get('/logout', auth.logout)
 
 /* ------------------------------------------------------- */
 module.exports = router

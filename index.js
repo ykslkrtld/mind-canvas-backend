@@ -30,6 +30,9 @@ dbConnection()
 // Accept JSON:
 app.use(express.json())
 
+// Check Authentication:
+app.use(require('./src/middlewares/authentication'))
+
 // res.getModelList():
 app.use(require('./src/middlewares/queryHandler'))
 

@@ -44,24 +44,31 @@ module.exports = {
                 }
             }
         */
+
+        req.body.userId = req.user._id;
+
         const data = await Blog.create(req.body)
 
         res.status(201).send({
             error: false,
             data,
-          });
+          })
     },
     read: async (req, res) => {
         /*
             #swagger.tags = ["Blogs"]
             #swagger.summary = "Get Single Blog"
         */
-        const data = await Blog.findOne({ _id: req.params.id });
-
+        const data = await Blog.findByIdAndUpdate(
+            req.params.id, 
+            { $inc: { countOfVisitors: 1 } },
+            { new: true }
+        );
+    
         res.status(200).send({
             error: false,
             data,
-          });
+        });
     },
     update: async (req, res) => {
         /*
@@ -80,6 +87,8 @@ module.exports = {
             }
         */
         const data = await Blog.updateOne({ _id: req.params.id }, req.body, {runValidators: true})
+
+        req.body.userId = req.user._id;
 
         res.status(202).send({
             error: false,
@@ -104,13 +113,13 @@ module.exports = {
             #swagger.tags = ["Blogs"]
             #swagger.summary = "Get Like Info"
         */
-            const data = await Blog.findById(req.params.id).select('likes');
+            const data = await Blog.findOne({ _id: req.params.id }).select('likes');
             if (!data) {
                 return res.status(404).send({ error: true, message: 'Blog not found' });
             }
             res.status(200).send({ 
                 error: false, 
-                likes: data.likes.length 
+                likes: data.likes.length
         });
     },
     postLike: async (req, res) => {
@@ -123,31 +132,28 @@ module.exports = {
                 schema: {}
             }
         */
-        const { userId } = req.body;
-
-        const data = await Blog.findById(req.params.id);
     
-        if (!data) {
-            return res.status(404).send({ 
-                error: true, 
-                message: 'Blog not found' 
-            });
-        }
+        const userId = req.user._id;
+    
+        const data = await Blog.findOne({ _id: req.params.id });
     
         if (data.likes.includes(userId)) {
-            data.likes = data.likes.filter(id => id !== userId);
+            data.likes = data.likes.filter(id => id.toString() !== userId.toString()); 
         } else {
             data.likes.push(userId);
         }
     
+        // Update the count of likes
         data.countOfLikes = data.likes.length;
     
+        // Save the updated blog
         const updatedBlog = await data.save();
     
+        // Return the response
         res.status(200).send({
-            error: false,        
+            error: false,
             countOfLikes: updatedBlog.countOfLikes,
-            didUserLike: updatedBlog.likes.includes(userId) 
+            didUserLike: updatedBlog.likes.includes(userId)
         });
     }
             
