@@ -29,7 +29,26 @@ const BlogSchema = new mongoose.Schema(
         trim: true,
         required: true,
     },
+    image: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    isPublish: {
+        type: Boolean,
+        default: true,
+    },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    countOfVisitors: {
+        type: Number,
+        default: 0
+    }
 
     },
-    {collection: "categories", timestamps: true}
+    {collection: "blogs", timestamps: true}
 )
+
+module.exports = mongoose.model('Blog', BlogSchema);
