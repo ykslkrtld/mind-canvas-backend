@@ -86,27 +86,52 @@ module.exports = {
                 }
             }
         */
-        const data = await Blog.updateOne({ _id: req.params.id }, req.body, {runValidators: true})
 
-        req.body.userId = req.user._id;
+        const blog = await Blog.findOne({ _id: req.params.id })
 
-        res.status(202).send({
-            error: false,
-            data,
-            new: await Blog.findOne({ _id: req.params.id }),
-          });
+        if (req.user._id.toString() === blog.userId.toString() || req.user.isAdmin) {
+            const data = await Blog.updateOne({ _id: req.params.id }, req.body, { runValidators: true });
+
+            res.status(202).send({
+                error: false,
+                data,
+                new: await Blog.findOne({ _id: req.params.id }),
+            });
+        } else {
+            res.status(403).send({
+                error: true,
+                message: 'NoPermission: You do not have permission to update this blog.',
+            });
+        }
     },
     delete: async (req, res) => {
         /*
             #swagger.tags = ["Blogs"]
             #swagger.summary = "Delete Blog"
         */
-        const data = await Blog.deleteOne({ _id: req.params.id });
 
-        res.status(data.deletedCount ? 204 : 404).send({
-          error: !data.deletedCount,
-          data,
-        });
+        const blog = await Blog.findOne({ _id: req.params.id })
+
+        if (!blog) {
+            return res.status(404).send({
+                error: true,
+                message: 'Blog not found',
+            });
+        }
+
+        if (req.user._id.toString() === blog.userId.toString() || req.user.isAdmin) {
+            const data = await Blog.deleteOne({ _id: req.params.id });
+
+            res.status(data.deletedCount ? 204 : 404).send({
+                error: !data.deletedCount,
+                data,
+            });
+        } else {
+            res.status(403).send({
+                error: true,
+                message: 'NoPermission: You do not have permission to delete this blog.',
+            });
+        }
     },
     getLike: async (req, res) => {
         /*
@@ -143,13 +168,10 @@ module.exports = {
             data.likes.push(userId);
         }
     
-        // Update the count of likes
         data.countOfLikes = data.likes.length;
     
-        // Save the updated blog
         const updatedBlog = await data.save();
     
-        // Return the response
         res.status(200).send({
             error: false,
             countOfLikes: updatedBlog.countOfLikes,

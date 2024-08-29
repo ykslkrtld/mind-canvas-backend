@@ -7,21 +7,23 @@ const router = require('express').Router()
 
 const blog = require('../controllers/blog')
 
+const {isLogin} = require('../middlewares/permissions')
+
 // URL: /blogs
 
 router.route("/")
   .get(blog.list)
-  .post(blog.create);
+  .post(isLogin, blog.create);
 
 router.route("/:id")
-  .get(blog.read)
-  .put(blog.update)
-  .patch(blog.update)
-  .delete(blog.delete);
+  .get(isLogin, blog.read)
+  .put(isLogin, blog.update)
+  .patch(isLogin, blog.update)
+  .delete(isLogin, blog.delete);
 
-router.route("/:id/getLike").get(blog.getLike)
+router.route("/:id/getLike").get(isLogin, blog.getLike)
 
-router.route("/:id/postLike").post(blog.postLike)
+router.route("/:id/postLike").post(isLogin, blog.postLike)
 
 /* ------------------------------------------------------- */
 module.exports = router;
