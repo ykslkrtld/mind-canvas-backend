@@ -25,6 +25,9 @@ router.use('/blogs', require('./blog'))
 // comment:
 router.use('/comments', require('./comment'))
 
+// document:
+router.use('/documents', require('./document'))
+
 
 /* ------------------------------------------------------- */
 module.exports = router

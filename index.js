@@ -45,11 +45,11 @@ app.all('/', (req, res) => {
     res.send({
         error: false,
         message: 'Welcome to Mind Canvas API',
-        // documents: {
-        //     swagger: '/documents/swagger',
-        //     redoc: '/documents/redoc',
-        //     json: '/documents/json',
-        // },
+        documents: {
+            swagger: '/documents/swagger',
+            redoc: '/documents/redoc',
+            json: '/documents/json',
+        },
         user: req.user
     })
 })

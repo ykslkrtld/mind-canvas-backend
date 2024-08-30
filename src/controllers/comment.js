@@ -31,12 +31,12 @@ module.exports = {
     create: async (req, res) => {
         /*
             #swagger.tags = ["Comments"]
-            #swagger.summary = "Create Comment"
+            #swagger.summary = "Update Comment"
             #swagger.parameters['body'] = {
                 in: 'body',
                 required: true,
                 schema: {
-                   "comment": Comment-1
+                   "name": "Comment 1"
                 }
             }
         */
@@ -70,7 +70,7 @@ module.exports = {
                 in: 'body',
                 required: true,
                 schema: {
-                    "comment": Comment-1
+                   "name": "Comment 1"
                 }
             }
         */
