@@ -4,6 +4,7 @@
 ------------------------------------------------------- */
 
 const Blog = require('../models/blog')
+const Comment = require('../models/comment')
 
 module.exports = {
 
@@ -59,8 +60,14 @@ module.exports = {
             #swagger.tags = ["Blogs"]
             #swagger.summary = "Get Single Blog"
         */
-        const data = await Blog.findByIdAndUpdate(
-            req.params.id, 
+
+        const blogId = req.params.id;
+
+        // Yorumları al
+        const comments = await Comment.find({ blogId });
+
+        const blog = await Blog.findByIdAndUpdate(
+            blogId, 
             { $inc: { countOfVisitors: 1 } },
             { new: true }
         ).populate([
@@ -70,7 +77,8 @@ module.exports = {
     
         res.status(200).send({
             error: false,
-            data,
+            data: blog,
+            comments
         });
     },
     update: async (req, res) => {
