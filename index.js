@@ -13,7 +13,7 @@ const cors = require('cors');
 app.use(cors({
     origin: [
         'http://localhost:3000', 
-        'https://mind-canvas-ykslkrtld.vercel.app'
+        'https://blog-app22.vercel.app'
     ]
 }));
 
