@@ -7,6 +7,17 @@ const express = require('express')
 const app = express()
 
 /* ------------------------------------------------------- */
+
+const cors = require('cors');
+
+app.use(cors({
+    origin: [
+        'http://localhost:3000', 
+        'https://mindcanvas2.vercel.app/'
+    ]
+}));
+
+/* ------------------------------------------------------- */
 // Required Modules:
 
 // envVariables to process.env:
