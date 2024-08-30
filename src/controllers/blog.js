@@ -63,7 +63,10 @@ module.exports = {
             req.params.id, 
             { $inc: { countOfVisitors: 1 } },
             { new: true }
-        );
+        ).populate([
+            { path: 'userId', select: 'username firstName lastName' },
+            { path: 'categoryId' }
+        ]);
     
         res.status(200).send({
             error: false,
