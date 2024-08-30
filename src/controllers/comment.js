@@ -36,11 +36,7 @@ module.exports = {
                 in: 'body',
                 required: true,
                 schema: {
-                   "categoryId": "65343222b67e9681f937f101",
-                    "title": "Comment Title 1",
-                    "content": "Comment Content 1",
-                    "image": "http://imageURL",
-                    "isPublish": true
+                   "comment": Comment-1
                 }
             }
         */
@@ -74,11 +70,7 @@ module.exports = {
                 in: 'body',
                 required: true,
                 schema: {
-                   "categoryId": "65343222b67e9681f937f101",
-                    "title": "Comment Title 1",
-                    "content": "Comment Content 1",
-                    "image": "http://imageURL",
-                    "isPublish": true
+                    "comment": Comment-1
                 }
             }
         */
