@@ -25,7 +25,7 @@ const CommentSchema = new mongoose.Schema(
         required: true,
     }
     },
-    {collection: "blogs", timestamps: true}
+    {collection: "comments", timestamps: true}
 )
 
-module.exports = mongoose.model('Blog', BlogSchema);
+module.exports = mongoose.model('Comment', CommentSchema);
