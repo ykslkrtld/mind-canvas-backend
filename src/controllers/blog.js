@@ -75,7 +75,8 @@ module.exports = {
         ).populate([
             { path: 'userId', select: 'username firstName lastName' },
             { path: 'categoryId' },
-            { path: 'comments' }
+            { path: 'comments',
+                populate: { path: 'userId', select: 'username firstName lastName' } }
         ]);
     
         res.status(200).send({
