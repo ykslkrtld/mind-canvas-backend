@@ -29,11 +29,11 @@ module.exports = {
         //     customFilter.userId = authorId;
         // }
 
-        const data = await res.getModelList(Blog, customFilter)
+        const data = await res.getModelList(Blog)
 
         res.status(200).send({
             error: false,
-            details: await res.getModelListDetails(Blog, customFilter),
+            details: await res.getModelListDetails(Blog),
             data,
           });
     },
