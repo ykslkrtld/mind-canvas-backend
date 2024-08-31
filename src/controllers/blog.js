@@ -68,7 +68,7 @@ module.exports = {
             #swagger.summary = "Get Single Blog"
         */
 
-        const blog = await Blog.findByIdAndUpdate(
+        const data = await Blog.findByIdAndUpdate(
             req.params.id, 
             { $inc: { countOfVisitors: 1 } },
             { new: true }
