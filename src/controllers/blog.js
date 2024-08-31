@@ -28,20 +28,13 @@ module.exports = {
         //     customFilter.userId = authorId;
         // }
 
-        const authorId = req.query.author;
+        const data = await res.getModelList(Blog)
 
-        let customFilter = {};
-        if (!authorId) {
-            customFilter.isPublish = true;
-        }
-    
-        const data = await res.getModelList(Blog, { filter: customFilter });
-    
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(Blog),
             data,
-        });
+          });
     },
     create: async (req, res) => {
         /*
