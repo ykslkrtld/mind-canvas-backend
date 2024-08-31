@@ -50,6 +50,17 @@ const UserSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        image: {
+            type: String,
+            trim: true,
+        },
+        city: {
+            type: String,
+            trim: true,
+        },bio: {
+            type: String,
+            trim: true,
+        },
 }, 
 
 { collection: "users", timestamps: true }
