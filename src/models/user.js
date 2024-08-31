@@ -57,7 +57,8 @@ const UserSchema = new mongoose.Schema(
         city: {
             type: String,
             trim: true,
-        },bio: {
+        },
+        bio: {
             type: String,
             trim: true,
         },

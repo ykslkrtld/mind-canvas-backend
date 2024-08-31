@@ -21,11 +21,19 @@ module.exports = {
                 </ul>
             `
         */
-        const data = await res.getModelList(Blog)
+
+        const authorId = req.query.author;
+
+        const customFilter = {};
+        if (authorId) {
+            customFilter.userId = authorId;
+        }
+
+        const data = await res.getModelList(Blog, customFilter)
 
         res.status(200).send({
             error: false,
-            details: await res.getModelListDetails(Blog),
+            details: await res.getModelListDetails(Blog, customFilter),
             data,
           });
     },
