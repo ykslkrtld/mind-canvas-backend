@@ -28,13 +28,20 @@ module.exports = {
         //     customFilter.userId = authorId;
         // }
 
-        const data = await res.getModelList(Blog)
+        const authorId = req.query.author; // Query parametresinden authorId'yi alın
+
+        const customFilter = { isPublish: true };
+        if (authorId) {
+            customFilter.userId = authorId; // Eğer authorId varsa, filtreye ekleyin
+        }
+
+        const data = await Blog.find(customFilter); // Filtreyi kullanarak blogları listeleyin
 
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(Blog),
             data,
-          });
+        });
     },
     create: async (req, res) => {
         /*
