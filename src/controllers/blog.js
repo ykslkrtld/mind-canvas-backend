@@ -22,12 +22,12 @@ module.exports = {
             `
         */
 
-        const authorId = req.query.author;
+        // const authorId = req.query.author;
 
-        const customFilter = { isPublish: true };
-        if (authorId) {
-            customFilter.userId = authorId;
-        }
+        // const customFilter = { isPublish: true };
+        // if (authorId) {
+        //     customFilter.userId = authorId;
+        // }
 
         const data = await res.getModelList(Blog, customFilter)
 
