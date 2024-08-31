@@ -72,7 +72,7 @@ module.exports = {
         const blogId = req.params.id;
 
         // Yorumları al
-        const comments = [await Comment.find({ blogId })];
+        const comments = await Comment.find({ blogId });
 
         const blog = await Blog.findByIdAndUpdate(
             blogId, 
