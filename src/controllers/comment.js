@@ -4,6 +4,7 @@
 ------------------------------------------------------- */
 
 const Comment = require('../models/comment')
+const Blog = require('../models/blog') 
 
 module.exports = {
 
@@ -43,7 +44,12 @@ module.exports = {
 
         req.body.userId = req.user._id;
 
+
         const data = await Comment.create(req.body)
+
+        await Blog.findByIdAndUpdate(req.body.blogId, {
+            $push: { comments: data._id }
+        });
 
         res.status(201).send({
             error: false,
@@ -75,9 +81,9 @@ module.exports = {
             }
         */
 
-        const Comment = await Comment.findOne({ _id: req.params.id })
+        const comment = await Comment.findOne({ _id: req.params.id })
 
-        if (req.user._id.toString() === Comment.userId.toString() || req.user.isAdmin) {
+        if (req.user._id.toString() === comment.userId.toString() || req.user.isAdmin) {
             const data = await Comment.updateOne({ _id: req.params.id }, req.body, { runValidators: true });
 
             res.status(202).send({
@@ -98,22 +104,33 @@ module.exports = {
             #swagger.summary = "Delete Comment"
         */
 
-        const Comment = await Comment.findOne({ _id: req.params.id })
+        const comment = await Comment.findOne({ _id: req.params.id })
 
-        if (!Comment) {
+        if (!comment) {
             return res.status(404).send({
                 error: true,
                 message: 'Comment not found',
             });
         }
 
-        if (req.user._id.toString() === Comment.userId.toString() || req.user.isAdmin) {
+        if (req.user._id.toString() === comment.userId.toString() || req.user.isAdmin) {
             const data = await Comment.deleteOne({ _id: req.params.id });
 
-            res.status(data.deletedCount ? 204 : 404).send({
-                error: !data.deletedCount,
-                data,
-            });
+            if (data.deletedCount) {
+                await Blog.findByIdAndUpdate(comment.blogId, {
+                    $pull: { comments: req.params.id }
+                });
+
+                res.status(204).send({
+                    error: false,
+                    message: 'Comment deleted successfully',
+                });
+            } else {
+                res.status(404).send({
+                    error: true,
+                    message: 'Comment not found',
+                });
+            }
         } else {
             res.status(403).send({
                 error: true,
