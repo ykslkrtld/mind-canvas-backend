@@ -22,18 +22,18 @@ module.exports = {
             `
         */
 
-        const authorId = req.query.author;
+        // const authorId = req.query.author;
 
-        const customFilter = {};
-        if (authorId) {
-            customFilter.userId = authorId;
-        }
+        // const customFilter = {};
+        // if (authorId) {
+        //     customFilter.userId = authorId;
+        // }
 
-        const data = await res.getModelList(Blog, customFilter)
+        const data = await res.getModelList(updatedBlog)
 
         res.status(200).send({
             error: false,
-            details: await res.getModelListDetails(Blog, customFilter),
+            details: await res.getModelListDetails(Blog),
             data,
           });
     },
