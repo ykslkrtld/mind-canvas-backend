@@ -4,6 +4,7 @@
 ------------------------------------------------------- */
 
 const Blog = require('../models/blog')
+const Comment = require('../models/comment')
 
 module.exports = {
 
@@ -137,6 +138,7 @@ module.exports = {
 
         if (req.user._id.toString() === blog.userId.toString() || req.user.isAdmin) {
             const data = await Blog.deleteOne({ _id: req.params.id });
+            await Comment.deleteMany({blogId: req.params.id})
 
             res.status(data.deletedCount ? 204 : 404).send({
                 error: !data.deletedCount,
