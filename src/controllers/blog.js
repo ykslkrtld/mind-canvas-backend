@@ -20,22 +20,21 @@ module.exports = {
                 </ul>
             `
         */
+        const {author, filter={}} = req.query;
 
-        // const authorId = req.query.author;
+        let customFilter = {}
 
-        // const customFilter = { isPublish: true };
-        // if (authorId) {
-        //     customFilter.userId = authorId;
-        // }
-
-        const authorId = req.query.author;
-        const customFilter = authorId ? {} : { isPublish: true };
+        if(author || filter.userId) {
+            customFilter = author ? {userId: author} : {userId: filter.userId}
+        } else {
+            customFilter = {isPublish: true}
+        }
 
         const data = await res.getModelList(Blog, customFilter);
 
         res.status(200).send({
             error: false,
-            details: await res.getModelListDetails(Blog),
+            details: await res.getModelListDetails(Blog, customFilter),
             data,
         });
     },
