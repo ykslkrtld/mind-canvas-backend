@@ -5,6 +5,7 @@
 
 const express = require('express')
 const app = express()
+const path = require('path')
 
 /* ------------------------------------------------------- */
 
@@ -68,6 +69,11 @@ app.all('/', (req, res) => {
 app.use(require('./src/routes'))
 
 /* ------------------------------------------------------- */
+
+app.use(
+    "/swagger",
+    express.static(path.join(__dirname, "node_modules", "swagger-ui-dist"))
+  );
 
 // errorHandler:
 app.use(require('./src/middlewares/errorHandler'))
