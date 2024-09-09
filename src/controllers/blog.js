@@ -58,6 +58,11 @@ module.exports = {
 
         req.body.userId = req.user._id;
 
+        delete req.body.likes;
+        delete req.body.countOfVisitors;
+        delete req.body.createdAt;
+        delete req.body.updatedAt;
+
         const data = await Blog.create(req.body)
 
         res.status(201).send({
@@ -107,6 +112,13 @@ module.exports = {
         const blog = await Blog.findOne({ _id: req.params.id })
 
         if (req.user._id.toString() === blog.userId.toString() || req.user.isAdmin) {
+
+            delete req.body.userId;
+            delete req.body.likes;
+            delete req.body.countOfVisitors;
+            delete req.body.createdAt;
+            delete req.body.updatedAt;
+            
             const data = await Blog.updateOne({ _id: req.params.id }, req.body, { runValidators: true });
 
             res.status(202).send({
