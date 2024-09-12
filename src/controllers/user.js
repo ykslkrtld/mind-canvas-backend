@@ -81,7 +81,11 @@ module.exports = {
                  }
              }
          */
-         const data = await User.create(checkUserEmailAndPassword(req.body))
+
+        delete req.body.isAdmin;
+        delete req.body.isStaff;
+
+        const data = await User.create(checkUserEmailAndPassword(req.body))
  
          /* AUTO LOGIN */
          // SimpleToken:
@@ -135,6 +139,11 @@ module.exports = {
                 }
             }
         */
+        if(!req.user.isAdmin){
+            delete req.body.isAdmin;
+            delete req.body.isStaff;
+        }
+
         const data = await User.updateOne({ _id: req.params.id }, checkUserEmailAndPassword(req.body), { runValidators: true })
 
         res.status(202).send({

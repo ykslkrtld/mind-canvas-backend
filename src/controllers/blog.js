@@ -116,8 +116,6 @@ module.exports = {
             delete req.body.userId;
             delete req.body.likes;
             delete req.body.countOfVisitors;
-            delete req.body.createdAt;
-            delete req.body.updatedAt;
             
             const data = await Blog.updateOne({ _id: req.params.id }, req.body, { runValidators: true });
 

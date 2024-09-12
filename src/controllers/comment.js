@@ -84,6 +84,9 @@ module.exports = {
         const comment = await Comment.findOne({ _id: req.params.id })
 
         if (req.user._id.toString() === comment.userId.toString() || req.user.isAdmin) {
+
+            delete req.body.userId;
+            
             const data = await Comment.updateOne({ _id: req.params.id }, req.body, { runValidators: true });
 
             res.status(202).send({
