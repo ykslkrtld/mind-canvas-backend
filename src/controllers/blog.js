@@ -81,7 +81,7 @@ module.exports = {
             { $inc: { countOfVisitors: 1 } },
             { new: true }
         ).populate([
-            { path: 'userId', select: 'username firstName lastName' },
+            { path: 'userId', select: 'username firstName lastName image' },
             { path: 'categoryId' },
             { path: 'comments',
                 populate: { path: 'userId', select: 'username firstName lastName' } }
