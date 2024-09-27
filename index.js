@@ -15,7 +15,8 @@ app.use(cors({
     origin: [
         'https://mind-canvas-ykslkrtld.vercel.app',
         'http://localhost:3000'
-    ]
+    ],
+    credentials: true
 }));
 
 /* ------------------------------------------------------- */
